@@ -1,6 +1,8 @@
 ﻿@page "/"
 @inject HttpClient HttpClient
 @inject OrderState OrderState
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <div class="main">
     <ul class="pizza-cards">
@@ -26,9 +28,9 @@
         <div class="order-contents">
             <h2>Your order</h2>
 
-            @foreach (var configuredPizza in Order.Pizzas)
+            @foreach (var configuredPizza in OrderState.Order.Pizzas)
             {
-                <ConfiguredPizzaItem Pizza="configuredPizza" OnRemoved="@(() => OrderState.RemoveConfiguredPizza(configuredPizza))" />
+                <ConfiguredPizzaItem Pizza="configuredPizza" OnRemoved="@(() => RemovePizza(configuredPizza))" />
             }
         </div>
     }
@@ -46,13 +48,12 @@
     </div>
 </div>
 
-@if (OrderState.ShowingConfigureDialog)
-{
-    <ConfigurePizzaDialog
-        Pizza="OrderState.ConfiguringPizza"
-        OnCancel="OrderState.CancelConfigurePizzaDialog"
+<TemplatedDialog Show="OrderState.ShowingConfigureDialog">
+    <ConfigurePizzaDialog 
+        Pizza="OrderState.ConfiguringPizza" 
+        OnCancel="OrderState.CancelConfigurePizzaDialog" 
         OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
-}
+</TemplatedDialog>
 
 @code {
     List<PizzaSpecial>? specials;
@@ -61,5 +62,13 @@
     protected override async Task OnInitializedAsync()
     {
         specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials");
+    }
+
+    async Task RemovePizza(Pizza configuredPizza)
+    {
+        if (await JS.Confirm($"Remove {configuredPizza.Special?.Name} pizza from the order?"))
+        {
+            OrderState.RemoveConfiguredPizza(configuredPizza);
+        }
     }
 }

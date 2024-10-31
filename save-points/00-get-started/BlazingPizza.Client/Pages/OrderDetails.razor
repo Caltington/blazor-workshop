@@ -1,0 +1,51 @@
+﻿@page "/myorders/{orderId:int}"
+@using System.Threading
+@inject HttpClient HttpClient
+
+<div class="main">
+    TODO: Show details for order @OrderId
+</div>
+
+@code {
+    [Parameter] public int OrderId { get; set; }
+
+    OrderWithStatus? orderWithStatus;
+    bool invalidoOrder;
+    CancellationTokenSource? pollingCancellationToken;
+
+    protected override void OnParametersSet()
+    {
+        pollingCancellationToken?.Cancel();
+        PollForUpdates();
+    }
+
+    private async void PollForUpdates()
+    {
+        pollingCancellationToken = new CancellationTokenSource();
+        while (!pollingCancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                invalidoOrder = false;
+                orderWithStatus = await HttpClient.GetFromJsonAsync<OrderWithStatus>($"Orders/{OrderId}") ?? throw new NullReferenceException();
+                StateHasChanged();
+
+                if (orderWithStatus.IsDelivered)
+                {
+                    pollingCancellationToken.Cancel();
+                }
+                else
+                {
+                    await Task.Delay(4000);
+                }
+            }
+            catch (Exception ex)
+            {
+                invalidoOrder = true;
+                pollingCancellationToken.Cancel();
+                Console.Error.WriteLine(ex);
+                StateHasChanged();
+            }
+        }
+    }
+}

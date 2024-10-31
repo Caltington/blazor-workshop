@@ -9,9 +9,9 @@
         <form class="dialog-body">
             <div>
                 <label>Size:</label>
-                <input type="range" min="@Pizza.MinimumSize" max="@Pizza.MaximumSize" step="1" @bind="Pizza.Size" @bind:event="oninput" />
+                <input type="range" min="@Pizza.MinimumSize" max="@Pizza.MaximumSize" step="1" @bind="Pizza.Size" @bind:event="oninput"/>
                 <span class="size-label">
-                    @(Pizza.Size)" (£@(Pizza.GetFormattedTotalPrice()))
+                    @(Pizza.Size)" (£@Pizza.GetFormattedTotalPrice()))
                 </span>
             </div>
             <div>
@@ -37,7 +37,6 @@
                     </select>
                 }
             </div>
-
             <div class="toppings">
                 @foreach (var topping in Pizza.Toppings)
                 {
@@ -45,14 +44,13 @@
                     {
                         <div class="topping">
                             @topping.Topping.Name
-                            <span class="topping-price">@topping.Topping.GetFormattedPrice()</span>
+                            <span class="topping-price">@topping.Topping.GetFormattedPrice())</span>
                             <button type="button" class="delete-topping" @onclick="@(() => RemoveTopping(topping.Topping))">x</button>
                         </div>
                     }
                 }
             </div>
         </form>
-
         <div class="dialog-buttons">
             <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
             <span class="mr-center">
@@ -64,11 +62,10 @@
 </div>
 
 @code {
-    List<Topping>? toppings;
-
-    [Parameter, EditorRequired] public Pizza Pizza { get; set; } = new();
+    List<Topping> toppings = null!;
     [Parameter, EditorRequired] public EventCallback OnCancel { get; set; }
     [Parameter, EditorRequired] public EventCallback OnConfirm { get; set; }
+    [Parameter, EditorRequired] public Pizza Pizza { get; set; } = new();
 
     protected async override Task OnInitializedAsync()
     {
@@ -77,7 +74,6 @@
 
     void ToppingSelected(ChangeEventArgs e)
     {
-        if (toppings is null) return;
         if (int.TryParse((string?)e.Value, out var index) && index >= 0)
         {
             AddTopping(toppings[index]);
@@ -86,6 +82,7 @@
 
     void AddTopping(Topping topping)
     {
+        if (toppings is null) return;
         if (Pizza.Toppings.Find(pt => pt.Topping == topping) is null)
         {
             Pizza.Toppings.Add(new PizzaTopping() { Topping = topping });

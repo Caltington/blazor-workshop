@@ -1,6 +1,5 @@
 ﻿@page "/myorders"
-@attribute [Authorize]
-@inject OrdersClient OrdersClient
+@inject HttpClient HttpClient
 
 <PageTitle>Blazing Pizza - My Orders</PageTitle>
 
@@ -23,14 +22,14 @@
                     <div class="col">
                         <h5>@item.Order.CreatedTime.ToLongDateString()</h5>
                         Items:
-                        <strong>@item.Order.Pizzas.Count()</strong>;
-                        Total price:
+                        <strong>@item.Order.Pizzas.Count()</strong>
+                        Total Price:
                         <strong>£@item.Order.GetFormattedTotalPrice()</strong>
                     </div>
                     <div class="col">
-                        Status: <strong>@item.StatusText</strong>
+                        Statuses: <strong>@item.StatusText</strong>
                     </div>
-                    <div class="col flex-grow-0">
+                    <div class="col flex-column-grow-0">
                         <a href="myorders/@item.Order.OrderId" class="btn btn-success">
                             Track &gt;
                         </a>
@@ -40,19 +39,11 @@
         </div>
     }
 </div>
-
 @code {
     IEnumerable<OrderWithStatus>? ordersWithStatus;
 
     protected override async Task OnParametersSetAsync()
     {
-        try
-        {
-            ordersWithStatus = await OrdersClient.GetOrders();
-        }
-        catch (AccessTokenNotAvailableException ex)
-        {
-            ex.Redirect();
-        }
+        ordersWithStatus = await HttpClient.GetFromJsonAsync<List<OrderWithStatus>>("orders");
     }
 }

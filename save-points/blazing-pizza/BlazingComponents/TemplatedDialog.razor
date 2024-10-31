@@ -1,0 +1,13 @@
+﻿@if (Show)
+{
+<div class="dialog-container">
+    <div class="dialog">
+        @ChildCOntent
+    </div>
+</div>
+}
+
+@code {
+    [Parameter, EditorRequired] public RenderFragment? ChildCOntent { get; set; }
+    [Parameter] public bool Show {get; set; }
+}
