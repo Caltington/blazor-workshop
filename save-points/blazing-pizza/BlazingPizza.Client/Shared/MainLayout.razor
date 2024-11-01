@@ -1,8 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@using MudBlazor
 
 <div class="top-bar">
     <a class="logo" href="">
-        <img src="img/logo.svg" />
+        <img src="img/test-logo.png"/>
     </a>
 
     <NavLink href="" class="nav-tab" Match="NavLinkMatch.All">
@@ -23,3 +24,8 @@
 <div class="content">
     @Body
 </div>
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />

@@ -10,6 +10,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="$(BlazorVersion)" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="$(BlazorVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="$(AspNetCoreVersion)" />
+		<PackageReference Include="MudBlazor" Version="7.15.0" />
 		<PackageReference Include="System.Net.Http.Json" Version="$(SystemNetHttpJsonVersion)" />
 	</ItemGroup>
 

@@ -1,6 +1,4 @@
-﻿@using System.Text.RegularExpressions;
-
-<div class="form-field">
+﻿<div class="form-field">
     <label>Name:</label>
     <div>
         <InputText @bind-Value="Address.Name" />
@@ -45,19 +43,10 @@
     <div>
         <InputText @bind-Value="Address.PostalCode" />
         <ValidationMessage For="@(() => Address.PostalCode)" />
-        @if (!IsValidPostalCode(Address.PostalCode))
-        {
-            <p class="text-danger">Please enter a valid postal code</p>
-        }
     </div>
 </div>
 
 @code {
     [Parameter, EditorRequired] public Address Address { get; set; } = new();
-    private const string PostPattern = @"^([a-zA-Z]{1,2}\d{1,2})\s*?(\d[a-zA-Z]{2})$";
-    private bool IsValidPostalCode(string postalCode)
-    {
-        return Regex.IsMatch(postalCode, PostPattern);
-    }
 
 }
