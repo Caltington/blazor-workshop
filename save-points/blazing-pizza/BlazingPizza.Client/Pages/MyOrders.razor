@@ -12,21 +12,21 @@
             <a class="btn btn-success" href="">Order some pizza</a>
         </Empty>
         <Item Context="item">
-            <div class="col">
-                <h5>@item.Order.CreatedTime.ToLongDateString()</h5>
-                Items:
-                <strong>@item.Order.Pizzas.Count()</strong>
-                Total: £
-                <strong>@item.Order.GetTotalPrice().ToString("F2")</strong>
-            </div>
-            <div class="col">
-                Status:<strong>@item.StatusText</strong>
-            </div>
-            <div class="col flex-grow-0">
-                <a href="myorders/@item.Order.OrderId" class="btn btn-success">
-                    Track &gt;
-                </a>
-            </div>
+                <div class="col">
+                    <h5>@item.Order.CreatedTime.ToLongDateString()</h5>
+                    Items:
+                    <strong>@item.Order.Pizzas.Count()</strong>
+                    Total: £
+                    <strong>@item.Order.GetTotalPrice().ToString("F2")</strong>
+                </div>
+                <div class="col">
+                    Status:<strong>@item.StatusText</strong>
+                </div>
+                <div class="col flex-grow-0">
+                    <a href="myorders/@item.Order.OrderId" class="btn btn-success">
+                        Track &gt;
+                    </a>
+                </div>
         </Item>
     </TemplatedList>
 </div>
