@@ -26,6 +26,7 @@ public class Order
 [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Default, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 [JsonSerializable(typeof(Order))]
 [JsonSerializable(typeof(OrderWithStatus))]
+[JsonSerializable(typeof(Address))]
 [JsonSerializable(typeof(List<OrderWithStatus>))]
 [JsonSerializable(typeof(Pizza))]
 [JsonSerializable(typeof(List<PizzaSpecial>))]

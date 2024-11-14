@@ -4,7 +4,7 @@
 
 <PageTitle>Slice Slice Baby - My Orders</PageTitle>
 
-<div class="main">
+<div class="main" style="background-image: url(img/BackgroundPizza.png); background-size: cover; background-position: center;">
     <TemplatedList Loader="LoadOrders" ListGroupClass="orders-list">
         <Loading>Loading...</Loading>
         <Empty>
@@ -16,6 +16,8 @@
                 <h5>@item.Order.CreatedTime.ToLongDateString()</h5>
                 Items:
                 <strong>@item.Order.Pizzas.Count()</strong>
+                Total: £
+                <strong>@item.Order.GetTotalPrice().ToString("F2")</strong>
             </div>
             <div class="col">
                 Status:<strong>@item.StatusText</strong>

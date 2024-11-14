@@ -161,6 +161,12 @@ form {
             transform: scale(1.02);
         }
 
+.main-background {
+    background-image: url(img/BackgroundPizza.png);
+    background-size: cover;
+    background-position: center;
+}
+
 .pizza-info {
     border-radius: 0.5rem;
     top: 0;
