@@ -28,6 +28,7 @@ public class OrdersController : Controller
     {
         var orders = await _db.Orders
                 .Where(o => o.UserId == PizzaApiExtensions.GetUserId(HttpContext))
+                .Include(o => o.DeliveryAddress)
                 .Include(o => o.DeliveryLocation)
                 .Include(o => o.Pizzas).ThenInclude(p => p.Special)
                 .Include(o => o.Pizzas).ThenInclude(p => p.Toppings).ThenInclude(t => t.Topping)
@@ -43,6 +44,7 @@ public class OrdersController : Controller
         var order = await _db.Orders
                 .Where(o => o.OrderId == orderId)
                 .Where(o => o.UserId == PizzaApiExtensions.GetUserId(HttpContext))
+                .Include(o => o.DeliveryAddress)
                 .Include(o => o.DeliveryLocation)
                 .Include(o => o.Pizzas).ThenInclude(p => p.Special)
                 .Include(o => o.Pizzas).ThenInclude(p => p.Toppings).ThenInclude(t => t.Topping)
