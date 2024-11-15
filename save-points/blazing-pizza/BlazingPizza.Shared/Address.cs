@@ -7,10 +7,10 @@ public class Address
     [Required, MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 
-    [Required, MaxLength(100)]
+    [Required, MaxLength(50)]
     public string Line1 { get; set; } = string.Empty;
 
-    [MaxLength(100)]
+    [MaxLength(50)]
     public string Line2 { get; set; } = string.Empty;
 
     [Required, MaxLength(50)]
@@ -19,6 +19,6 @@ public class Address
     [Required, MaxLength(20)]
     public string Region { get; set; } = string.Empty;
 
-    [Required, MaxLength(20)]
+    [Required, MaxLength(10)]
     public string PostalCode { get; set; } = string.Empty;
 }
