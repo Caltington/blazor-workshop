@@ -3,8 +3,7 @@
 @inject OrderState OrderState
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
-
-<div class="main main-background" style="background-image: url(img/BackgroundPizza.png); background-size: cover; background-position: center;">
+<div class="main main-background" style="background-image: url(@image); background-size: cover; background-position: center;">
     <ul class="pizza-cards">
         @if (specials is not null)
         {
@@ -58,10 +57,13 @@
 @code {
     List<PizzaSpecial>? specials;
     Order Order => OrderState.Order;
-
-    protected override async Task OnInitializedAsync()
+    string image = string.Empty;
+    protected override async Task OnParametersSetAsync()
     {
+        var result = await HttpClient.GetAsync("https://foodish-api.com/api/images/pizza");
+        image = (await result.Content.ReadFromJsonAsync<PizzaImage>()).image;
         specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials");
+        
     }
 
     async Task RemovePizza(Pizza configuredPizza)
