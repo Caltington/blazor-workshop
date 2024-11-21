@@ -1,10 +1,11 @@
 ﻿@page "/myorders"
 @attribute [Authorize]
+@inject HttpClient HttpClient
 @inject OrdersClient OrdersClient
 
 <PageTitle>Slice Slice Baby - My Orders</PageTitle>
 
-<div class="main" style="background-image: url(img/BackgroundPizza.png); background-size: cover; background-position: center;">
+<div class="main" style="background-image: url(@image); background-size: cover; background-position: center;">
     <TemplatedList Loader="LoadOrders" ListGroupClass="orders-list">
         <Loading>Loading...</Loading>
         <Empty>
@@ -32,6 +33,12 @@
 </div>
 
 @code {
+    string image = string.Empty;
+    protected override async Task OnParametersSetAsync()
+    {
+        var result = await HttpClient.GetAsync("https://foodish-api.com/api/images/pizza");
+        image = (await result.Content.ReadFromJsonAsync<PizzaImage>()).image;
+    }
     async Task<IEnumerable<OrderWithStatus>> LoadOrders()
     {
         var ordersWithStatus = Enumerable.Empty<OrderWithStatus>();

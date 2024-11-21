@@ -1,6 +1,7 @@
 ﻿@page "/myorders/{orderId:int}"
 @attribute [Authorize]
 @using System.Threading
+@inject HttpClient HttpClient
 @inject OrdersClient OrdersClient
 @inject OrderState OrderState
 
@@ -8,7 +9,7 @@
 
 <PageTitle>Slice Slice Baby - Order Details</PageTitle>
 
-<div class="main" style="background-image: url(img/BackgroundPizza.png); background-size: cover; background-position: center;">
+<div class="main" style="background-image: url(@image); background-size: cover; background-position: center;">
     @if (invalidOrder)
     {
         <div class="alert alert-danger" role="alert">
@@ -48,6 +49,13 @@
 
 
 @code {
+    string image = string.Empty;
+    protected override async Task OnParametersSetAsync()
+    {
+        var result = await HttpClient.GetAsync("https://foodish-api.com/api/images/pizza");
+        image = (await result.Content.ReadFromJsonAsync<PizzaImage>()).image;
+
+    }
     [Parameter] public int OrderId { get; set; }
 
     OrderWithStatus? orderWithStatus;
